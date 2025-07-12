@@ -9,6 +9,8 @@ import GameService from "../../lib/game/services/GameService";
 import TileService from "../../lib/game/services/TileService";
 import TileFactory from "../../lib/game/factories/TileFactory";
 import APP_CONFIG from "../app.config";
+import UIGameService from "../../lib/ui/services/UIGameService";
+import HTMLElementLocator from "../../lib/ui/services/HTMLElementLocator";
 
 function setupContainer(): Container {
   const container = new Container();
@@ -19,6 +21,10 @@ function setupContainer(): Container {
   container.bind<GameService>(TYPES.GameService).to(GameService);
   container.bind<TileService>(TYPES.TileService).to(TileService);
   container.bind<TileFactory>(TYPES.TileFactory).to(TileFactory);
+  container.bind<UIGameService>(TYPES.UIGameService).to(UIGameService);
+  container
+    .bind<HTMLElementLocator>(TYPES.HTMLElementLocator)
+    .to(HTMLElementLocator);
 
   container.bind<EventEmitter>(TYPES.EventEmitter).toConstantValue(emitter);
   container.bind<Config>(TYPES.Config).toConstantValue(APP_CONFIG);

@@ -7,6 +7,8 @@ const TYPES = {
   TileService: Symbol.for("TileService"),
   TileFactory: Symbol.for("TileFactory"),
   Config: Symbol.for("Config"),
+  UIGameService: Symbol.for("UIGameService"),
+  HTMLElementLocator: Symbol.for("HTMLElementLocator"),
 };
 
 export default TYPES;
