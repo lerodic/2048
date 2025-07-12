@@ -1,18 +1,21 @@
 import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
 import TYPES from "../config/inversify/inversify.types";
-import type GameController from "./game/GameController";
-import type ViewController from "./ui/ViewController";
+import type { Controller } from "../types";
 
 @boundClass
 @injectable()
 class App {
   constructor(
-    @inject(TYPES.GameController) private gameController: GameController,
-    @inject(TYPES.ViewController) private viewController: ViewController
+    @inject(TYPES.GameController) private gameController: Controller,
+    @inject(TYPES.ViewController) private viewController: Controller
   ) {}
 
-  run() {}
+  run() {
+    [this.gameController, this.viewController].forEach((controller) => {
+      controller.init();
+    });
+  }
 }
 
 export default App;

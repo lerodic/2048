@@ -1,5 +1,7 @@
 import "./assets/styles/main.scss";
-import AppFactory from "./lib/AppFactory";
+import container from "./config/inversify/inversify.config";
+import TYPES from "./config/inversify/inversify.types";
+import type App from "./lib/App";
 
-const app = AppFactory.create();
+const app = container.get<App>(TYPES.App);
 app.run();
