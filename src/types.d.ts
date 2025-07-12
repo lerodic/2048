@@ -29,3 +29,8 @@ export type Config = typeof CONFIG;
 
 export type ValidInputKey =
   (typeof KeyboardInputService.VALID_INPUT_KEYS)[number];
+
+export interface TouchPosition {
+  x: number | undefined;
+  y: number | undefined;
+}
