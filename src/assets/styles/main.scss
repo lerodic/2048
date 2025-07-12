@@ -1,0 +1,83 @@
+@import "./partials/variables";
+@import "./partials/game";
+
+@font-face {
+  font-family: Nunito;
+  src: url("../fonts/Nunito.ttf") format("truetype");
+}
+
+:root {
+  --2: #eee3d9;
+  --4: #ede0c8;
+  --8: #f2b179;
+  --16: #f59564;
+  --32: #f67c60;
+  --64: #f65e3a;
+  --128: #edd072;
+  --256: #edcc60;
+  --512: #ffb904;
+  --1024: #ff9600;
+  --2048: black;
+  --altText: #776e65;
+  --backgroundColor: #faf9ef;
+  --tileBackground: #ccc0b4;
+  --gameBackground: #bbada0;
+
+  font-family: Nunito, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  scrollbar-width: none;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100%;
+  min-width: 360px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--backgroundColor);
+  position: relative;
+  overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 56.25rem) {
+  html,
+  body {
+    font-size: 1.5vw;
+  }
+}
+
+@media screen and (min-width: 65.625rem) {
+  html,
+  body {
+    font-size: 1.35vw;
+  }
+}
+
+@media screen and (min-width: 106.25rem) {
+  html,
+  body {
+    font-size: 1vw;
+  }
+}
