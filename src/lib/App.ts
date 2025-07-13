@@ -8,13 +8,16 @@ import type { Controller } from "../types";
 class App {
   constructor(
     @inject(TYPES.GameController) private gameController: Controller,
-    @inject(TYPES.ViewController) private viewController: Controller
+    @inject(TYPES.ViewController) private viewController: Controller,
+    @inject(TYPES.InputController) private inputController: Controller
   ) {}
 
   run() {
-    [this.gameController, this.viewController].forEach((controller) => {
-      controller.init();
-    });
+    [this.gameController, this.viewController, this.inputController].forEach(
+      (controller) => {
+        controller.init();
+      }
+    );
   }
 }
 
