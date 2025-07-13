@@ -1,5 +1,6 @@
 const APP_CONFIG = {
   ANIMATION_DURATION: 250,
+  MIN_TOUCH_THRESHOLD: 0,
 };
 
 export default APP_CONFIG;
