@@ -9,6 +9,9 @@ const TYPES = {
   Config: Symbol.for("Config"),
   UIGameService: Symbol.for("UIGameService"),
   HTMLElementLocator: Symbol.for("HTMLElementLocator"),
+  InputController: Symbol.for("InputController"),
+  TouchInputService: Symbol.for("TouchInputService"),
+  KeyboardInputService: Symbol.for("KeyboardInputService"),
 };
 
 export default TYPES;

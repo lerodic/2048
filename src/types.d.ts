@@ -14,6 +14,8 @@ export type AppEvents = {
   tileSpawned: Tile;
   initialAnimationDone: void;
   inputRegistered: Direction;
+  inputEnabled: void;
+  inputDisabled: void;
 };
 
 export type EventEmitter = typeof emitter;
