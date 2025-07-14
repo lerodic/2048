@@ -40,6 +40,9 @@ export type AppEvents = {
   tileMoved: TileMovedEvent;
   scoreUpdated: number;
   highScoreUpdated: number;
+  themeSelected: string;
+  gameRestarted: void;
+  themeListToggled: void;
 };
 
 export type EventEmitter = typeof emitter;
@@ -62,3 +65,24 @@ export interface TouchPosition {
 }
 
 export type TileTravelDistance = 1 | 2 | 3;
+
+export interface Theme {
+  title: string;
+  values: {
+    "2": string;
+    "4": string;
+    "8": string;
+    "16": string;
+    "32": string;
+    "64": string;
+    "128": string;
+    "256": string;
+    "512": string;
+    "1024": string;
+    "2048": string;
+    altText: string;
+    backgroundColor: string;
+    tileBackground: string;
+    gameBackground: string;
+  };
+}
