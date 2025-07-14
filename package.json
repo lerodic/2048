@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest --reporter=verbose"
   },
   "devDependencies": {
     "happy-dom": "^18.0.1",
@@ -14,12 +15,14 @@
     "sass-loader": "^16.0.5",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "vitest-mock-extended": "^3.1.0"
   },
   "dependencies": {
     "@types/uuid": "^10.0.0",
     "autobind-decorator": "^2.4.0",
     "inversify": "^7.5.4",
+    "mitt": "^3.0.1",
     "reflect-metadata": "^0.2.2",
     "uuid": "^11.1.0"
   }
