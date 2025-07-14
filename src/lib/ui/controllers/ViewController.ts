@@ -20,6 +20,9 @@ class ViewController implements Controller {
 
   private registerEventListeners() {
     this.emitter.on("tileSpawned", this.uiGame.spawnTile);
+    this.emitter.on("tileMoved", this.uiGame.moveTile);
+    this.emitter.on("zIndexUpdated", this.uiGame.updateZIndex);
+    this.emitter.on("tilesMerged", this.uiGame.mergeTiles);
   }
 }
 

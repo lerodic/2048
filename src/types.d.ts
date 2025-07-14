@@ -9,6 +9,24 @@ export interface Controller {
 
 export type Direction = "Up" | "Down" | "Left" | "Right";
 
+export interface ZIndexUpdatedEvent {
+  tile: Tile;
+  zIndex: number;
+}
+
+export interface TilesMergedEvent {
+  tile: Tile;
+  mergedInto: Tile;
+  direction: Direction;
+  distance: TileTravelDistance;
+}
+
+export interface TileMovedEvent {
+  tile: Tile;
+  direction: Direction;
+  distance: TileTravelDistance;
+}
+
 export type AppEvents = {
   gameStarted: void;
   tileSpawned: Tile;
@@ -16,6 +34,10 @@ export type AppEvents = {
   inputRegistered: Direction;
   inputEnabled: void;
   inputDisabled: void;
+  gameOver: void;
+  zIndexUpdated: ZIndexUpdatedEvent;
+  tilesMerged: TilesMergedEvent;
+  tileMoved: TileMovedEvent;
 };
 
 export type EventEmitter = typeof emitter;
@@ -36,3 +58,5 @@ export interface TouchPosition {
   x: number | undefined;
   y: number | undefined;
 }
+
+export type TileTravelDistance = 1 | 2 | 3;
