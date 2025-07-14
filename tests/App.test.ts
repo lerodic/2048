@@ -7,20 +7,24 @@ describe("App", () => {
   let app: App;
   let viewController: Controller;
   let gameController: Controller;
+  let inputController: Controller;
 
   beforeEach(() => {
     viewController = { init: () => {} };
     gameController = { init: () => {} };
-    app = new App(gameController, viewController);
+    inputController = { init: () => {} };
+    app = new App(gameController, viewController, inputController);
   });
 
   it("should init all controllers", () => {
     const initViewController = vi.spyOn(viewController, "init");
     const initGameController = vi.spyOn(gameController, "init");
+    const initInputController = vi.spyOn(inputController, "init");
 
     app.run();
 
     expect(initViewController).toHaveBeenCalledOnce();
     expect(initGameController).toHaveBeenCalledOnce();
+    expect(initInputController).toHaveBeenCalledOnce();
   });
 });
