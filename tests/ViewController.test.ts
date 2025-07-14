@@ -4,6 +4,7 @@ import { describe, it, vi, expect, beforeEach } from "vitest";
 import mitt from "mitt";
 import type { AppEvents, EventEmitter } from "../src/types.d";
 import UIGameService from "../src/lib/ui/services/UIGameService";
+import UIScoreService from "../src/lib/ui/services/UIScoreService";
 
 vi.mock("mitt", () => {
   return {
@@ -17,6 +18,7 @@ vi.mock("mitt", () => {
 describe("ViewController", () => {
   let emitter: EventEmitter;
   let uiGameService: UIGameService;
+  let uiScoreService: UIScoreService;
   let viewController: ViewController;
 
   beforeEach(() => {
@@ -25,7 +27,12 @@ describe("ViewController", () => {
       init: vi.fn(),
       spawnTile: vi.fn(),
     } as unknown as UIGameService;
-    viewController = new ViewController(emitter, uiGameService);
+    uiScoreService = {
+      init: vi.fn(),
+      updateScore: vi.fn(),
+      updateHighScore: vi.fn(),
+    } as unknown as UIScoreService;
+    viewController = new ViewController(emitter, uiGameService, uiScoreService);
   });
 
   describe("init", () => {
@@ -48,6 +55,14 @@ describe("ViewController", () => {
       expect(emitter.on).toHaveBeenCalledWith(
         "tilesMerged",
         uiGameService.mergeTiles
+      );
+      expect(emitter.on).toHaveBeenCalledWith(
+        "scoreUpdated",
+        uiScoreService.updateScore
+      );
+      expect(emitter.on).toHaveBeenCalledWith(
+        "highScoreUpdated",
+        uiScoreService.updateHighScore
       );
     });
   });
