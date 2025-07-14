@@ -1,3 +1,5 @@
+@use "./variables" as *;
+
 #game-container {
   background-color: var(--gameBackground);
   width: 18.4rem;
@@ -8,13 +10,15 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  transition: all 0.5s;
-  transform: translateY(30vh);
+  transform: scale(0);
   opacity: 0;
+  filter: saturate(0);
 
   &.show {
+    transition: all 0.5s;
+    transform: scale(1);
     opacity: 1;
-    transform: translateY(0);
+    filter: saturate(1);
 
     &.translucent {
       opacity: 0.1;
@@ -37,14 +41,6 @@
       background-color: var(--tileBackground);
       border-radius: 0.5rem;
       position: relative;
-      transform: scale(0);
-      opacity: 0;
-
-      &.show {
-        transition: all 0.375s;
-        transform: scale(1);
-        opacity: 1;
-      }
 
       .tile {
         height: 100%;
@@ -53,7 +49,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 0.5rem;
-        transition: transform 0.125s, scale 0.25s, background-color 0.125s;
+        transition: all $animationDuration;
         position: absolute;
         color: white;
 
@@ -126,6 +122,54 @@
           animation: spawn $animationDuration ease-out 1 forwards;
         }
 
+        &.move-tile-up-1 {
+          animation: moveTileUp1 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-up-2 {
+          animation: moveTileUp2 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-up-3 {
+          animation: moveTileUp3 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-down-1 {
+          animation: moveTileDown1 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-down-2 {
+          animation: moveTileDown2 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-down-3 {
+          animation: moveTileDown3 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-left-1 {
+          animation: moveTileLeft1 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-left-2 {
+          animation: moveTileLeft2 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-left-3 {
+          animation: moveTileLeft3 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-right-1 {
+          animation: moveTileRight1 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-right-2 {
+          animation: moveTileRight2 $animationDuration ease-out 1 forwards;
+        }
+
+        &.move-tile-right-3 {
+          animation: moveTileRight3 $animationDuration ease-out 1 forwards;
+        }
+
         &.shadow {
           box-shadow: rgba(255, 255, 255, 0.6) 2px 2px 10px;
         }
@@ -134,6 +178,10 @@
           font-size: 1.5rem;
           font-weight: 800;
           color: white;
+
+          &.merged {
+            animation: merged $animationDuration ease-out 1 forwards;
+          }
         }
       }
     }
@@ -153,5 +201,139 @@
   100% {
     transform: scale(1);
     filter: saturate(1);
+  }
+}
+
+@keyframes moveTileUp1 {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-3.68rem - 0.736rem);
+  }
+}
+
+@keyframes moveTileUp2 {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(2 * (-3.68rem - 0.736rem)));
+  }
+}
+
+@keyframes moveTileUp3 {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(3 * (-3.68rem - 0.736rem)));
+  }
+}
+
+@keyframes moveTileDown1 {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(3.68rem + 0.736rem);
+  }
+}
+
+@keyframes moveTileDown2 {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(2 * (3.68rem + 0.736rem)));
+  }
+}
+
+@keyframes moveTileDown3 {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(3 * (3.68rem + 0.736rem)));
+  }
+}
+
+@keyframes moveTileLeft1 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-3.68rem - 0.736rem);
+  }
+}
+
+@keyframes moveTileLeft2 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(2 * (-3.68rem - 0.736rem)));
+  }
+}
+
+@keyframes moveTileLeft3 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(3 * (-3.68rem - 0.736rem)));
+  }
+}
+
+@keyframes moveTileRight1 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(3.68rem + 0.736rem);
+  }
+}
+
+@keyframes moveTileRight2 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(2 * (3.68rem + 0.736rem)));
+  }
+}
+
+@keyframes moveTileRight3 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(3 * (3.68rem + 0.736rem)));
+  }
+}
+
+@keyframes merged {
+  0% {
+    transform: scale(0);
+  }
+
+  35% {
+    transform: scale(1.125);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }

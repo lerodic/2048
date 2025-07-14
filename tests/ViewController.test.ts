@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import ViewController from "../src/lib/ui/controllers/ViewController";
-import { describe, it, vi, expect } from "vitest";
+import { describe, it, vi, expect, beforeEach } from "vitest";
 import mitt from "mitt";
-import type { AppEvents } from "../src/types.d";
+import type { AppEvents, EventEmitter } from "../src/types.d";
 import UIGameService from "../src/lib/ui/services/UIGameService";
 
 vi.mock("mitt", () => {
@@ -14,28 +14,40 @@ vi.mock("mitt", () => {
   };
 });
 
-function setup() {
-  const emitter = vi.mocked(mitt<AppEvents>());
-  const uiGameService = {
-    init: vi.fn(),
-    spawnTile: vi.fn(),
-  } as unknown as UIGameService;
-  const viewController = new ViewController(emitter, uiGameService);
-
-  return { emitter, uiGameService, viewController };
-}
-
 describe("ViewController", () => {
+  let emitter: EventEmitter;
+  let uiGameService: UIGameService;
+  let viewController: ViewController;
+
+  beforeEach(() => {
+    emitter = vi.mocked(mitt<AppEvents>());
+    uiGameService = {
+      init: vi.fn(),
+      spawnTile: vi.fn(),
+    } as unknown as UIGameService;
+    viewController = new ViewController(emitter, uiGameService);
+  });
+
   describe("init", () => {
     it("should init ViewController", () => {
-      const { emitter, uiGameService, viewController } = setup();
-
       viewController.init();
 
       expect(uiGameService.init).toHaveBeenCalledOnce();
       expect(emitter.on).toHaveBeenCalledWith(
         "tileSpawned",
         uiGameService.spawnTile
+      );
+      expect(emitter.on).toHaveBeenCalledWith(
+        "tileMoved",
+        uiGameService.moveTile
+      );
+      expect(emitter.on).toHaveBeenCalledWith(
+        "zIndexUpdated",
+        uiGameService.updateZIndex
+      );
+      expect(emitter.on).toHaveBeenCalledWith(
+        "tilesMerged",
+        uiGameService.mergeTiles
       );
     });
   });

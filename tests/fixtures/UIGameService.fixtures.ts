@@ -1,4 +1,9 @@
-import type { Position } from "../../src/types.d";
+import Tile from "../../src/lib/game/entities/Tile";
+import type {
+  Direction,
+  Position,
+  TileTravelDistance,
+} from "../../src/types.d";
 
 export function provideSpawnTileTestCases() {
   return [
@@ -43,4 +48,38 @@ export function provideSpawnTileTestCases() {
       id: "5",
     },
   ];
+}
+
+export function provideMoveTileTestCases() {
+  return [
+    {
+      tile: new Tile({ x: 0, y: 0 }, 2, "1"),
+      direction: "Down",
+      distance: 2,
+      movementClass: "move-tile-down-2",
+    },
+  ] as {
+    tile: Tile;
+    direction: Direction;
+    distance: TileTravelDistance;
+    movementClass: string;
+  }[];
+}
+
+export function provideMergeTilesTestCases() {
+  return [
+    {
+      tile: new Tile({ x: 1, y: 0 }, 2, "1"),
+      mergedInto: new Tile({ x: 0, y: 0 }, 2, "1"),
+      direction: "Left",
+      distance: 1,
+      movementClass: "move-tile-left-1",
+    },
+  ] as {
+    tile: Tile;
+    mergedInto: Tile;
+    direction: Direction;
+    distance: TileTravelDistance;
+    movementClass: string;
+  }[];
 }
