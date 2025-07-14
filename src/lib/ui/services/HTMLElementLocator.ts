@@ -31,6 +31,22 @@ class HTMLElementLocator {
       ".tile-value"
     ) as HTMLParagraphElement;
   }
+
+  getScoreContainerElement(): HTMLDivElement {
+    return document.querySelector("#score-container") as HTMLDivElement;
+  }
+
+  getScoreElement(): HTMLParagraphElement {
+    return document.querySelector(
+      ".score-container__current .score"
+    ) as HTMLParagraphElement;
+  }
+
+  getHighScoreElement(): HTMLParagraphElement {
+    return document.querySelector(
+      ".score-container__high-score .score"
+    ) as HTMLParagraphElement;
+  }
 }
 
 export default HTMLElementLocator;

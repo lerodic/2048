@@ -11,6 +11,7 @@ import {
   provideMoveTilesFailureTestCases,
   provideSpawnTileTestCases,
 } from "./fixtures/GameService.fixtures";
+import ScoreService from "../src/lib/game/services/ScoreService";
 
 vi.mock("../src/lib/game/services/TileService", () => {
   return {
@@ -35,6 +36,16 @@ vi.mock("../src/lib/game/factories/TileFactory", () => {
   };
 });
 
+vi.mock("../src/lib/game/services/ScoreService", () => {
+  return {
+    default: vi.fn(() => ({
+      loadSavedHighScore: vi.fn(),
+      updateScore: vi.fn(),
+      updateHighScore: vi.fn(),
+    })),
+  };
+});
+
 vi.mock("mitt", () => {
   return {
     default: vi.fn(() => ({
@@ -49,12 +60,19 @@ describe("GameService", () => {
   let emitter: EventEmitter;
   let tileFactory: TileFactory;
   let gameService: GameService;
+  let scoreService: ScoreService;
 
   function setup(tiles: Tile[] = []) {
     tileService = vi.mocked(new TileService(tiles));
     emitter = vi.mocked(mitt<AppEvents>());
     tileFactory = vi.mocked(new TileFactory());
-    gameService = new GameService(emitter, tileService, tileFactory);
+    scoreService = vi.mocked(new ScoreService(emitter));
+    gameService = new GameService(
+      emitter,
+      tileService,
+      tileFactory,
+      scoreService
+    );
   }
 
   function createMockTile() {
@@ -77,6 +95,7 @@ describe("GameService", () => {
 
       gameService.init();
 
+      expect(scoreService.loadSavedHighScore).toHaveBeenCalledOnce();
       expect(emitter.on).toHaveBeenCalledWith(
         "gameStarted",
         (gameService as any).spawnInitialTiles
@@ -146,6 +165,7 @@ describe("GameService", () => {
 
         expect(result).toBe(true);
         expect(tileService.merge).toHaveBeenCalledWith(tile, "Up");
+        expect(scoreService.updateScore).toHaveBeenCalledWith(tile.value * 2);
         expect(emitter.emit).toHaveBeenCalledWith("tilesMerged", {
           tile,
           mergedInto,
