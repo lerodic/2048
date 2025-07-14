@@ -4,11 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href="/src/assets/styles/main.scss" as="style" />
+    <link rel="stylesheet" href="/src/assets/styles/main.scss" />
     <title>2048</title>
   </head>
   <body>
     <div id="app">
       <div class="overlay"></div>
+
+      <button class="toggle-theme-list">
+        <img src="/src/assets/images/theme.webp" alt="A paintbrush icon" />
+      </button>
+
+      <div class="theme-list"></div>
 
       <div id="score-container">
         <div class="score-container__current">
