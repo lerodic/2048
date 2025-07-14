@@ -12,6 +12,8 @@ const TYPES = {
   InputController: Symbol.for("InputController"),
   TouchInputService: Symbol.for("TouchInputService"),
   KeyboardInputService: Symbol.for("KeyboardInputService"),
+  UIScoreService: Symbol.for("UIScoreService"),
+  ScoreService: Symbol.for("ScoreService"),
 };
 
 export default TYPES;
