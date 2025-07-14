@@ -13,7 +13,7 @@ class App {
   ) {}
 
   run() {
-    [this.gameController, this.viewController, this.inputController].forEach(
+    [this.viewController, this.gameController, this.inputController].forEach(
       (controller) => {
         controller.init();
       }

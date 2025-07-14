@@ -38,6 +38,8 @@ export type AppEvents = {
   zIndexUpdated: ZIndexUpdatedEvent;
   tilesMerged: TilesMergedEvent;
   tileMoved: TileMovedEvent;
+  scoreUpdated: number;
+  highScoreUpdated: number;
 };
 
 export type EventEmitter = typeof emitter;

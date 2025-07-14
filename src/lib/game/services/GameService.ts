@@ -9,6 +9,7 @@ import type {
 import type TileService from "./TileService";
 import type TileFactory from "../factories/TileFactory";
 import type Tile from "../entities/Tile";
+import type ScoreService from "./ScoreService";
 
 @boundClass
 @injectable()
@@ -18,7 +19,8 @@ class GameService {
   constructor(
     @inject(TYPES.EventEmitter) private emitter: EventEmitter,
     @inject(TYPES.TileService) private tileService: TileService,
-    @inject(TYPES.TileFactory) private tileFactory: TileFactory
+    @inject(TYPES.TileFactory) private tileFactory: TileFactory,
+    @inject(TYPES.ScoreService) private scoreService: ScoreService
   ) {}
 
   get isGameOver(): boolean {
@@ -26,6 +28,7 @@ class GameService {
   }
 
   init() {
+    this.scoreService.loadSavedHighScore();
     this.emitter.on("gameStarted", this.spawnInitialTiles);
   }
 
@@ -112,6 +115,8 @@ class GameService {
 
   private performTileMerge(tile: Tile, direction: Direction, distance: number) {
     const mergedInto = this.tileService.merge(tile, direction) as Tile;
+
+    this.scoreService.updateScore(tile.value * 2);
 
     this.emitter.emit("tilesMerged", {
       tile,
