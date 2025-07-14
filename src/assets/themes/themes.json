@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Classic",
+    "values": {
+      "2": "#EEE3D9",
+      "4": "#EDE0C8",
+      "8": "#F2B179",
+      "16": "#F59564",
+      "32": "#F67C60",
+      "64": "#F65E3A",
+      "128": "#EDD072",
+      "256": "#EDCC60",
+      "512": "#FFB904",
+      "1024": "#FF9600",
+      "2048": "black",
+      "altText": "#776E65",
+      "backgroundColor": "#FAF9EF",
+      "tileBackground": "#CCC0B4",
+      "gameBackground": "#BBADA0"
+    }
+  },
+  {
+    "title": "Purplish",
+    "values": {
+      "2": "#dec9e9",
+      "4": "#dac3e8",
+      "8": "#d2b7e5",
+      "16": "#c19ee0",
+      "32": "#b185db",
+      "64": "#a06cd5",
+      "128": "#9163cb",
+      "256": "#815ac0",
+      "512": "#7251b5",
+      "1024": "#6247aa",
+      "2048": "#a1e3f7",
+      "altText": "white",
+      "backgroundColor": "#afc3ce",
+      "tileBackground": "#203440",
+      "gameBackground": "#192a32"
+    }
+  },
+  {
+    "title": "Construction",
+    "values": {
+      "2": "#f4f1de",
+      "4": "#ffba08ff",
+      "8": "#faa307ff",
+      "16": "#f48c06ff",
+      "32": "#e85d04ff",
+      "64": "#dc2f02ff",
+      "128": "#d00000ff",
+      "256": "#9d0208ff",
+      "512": "#6a040fff",
+      "1024": "#370617ff",
+      "2048": "#03071eff",
+      "altText": "#03071eff",
+      "backgroundColor": "#ffb700",
+      "tileBackground": "#0d1b2a",
+      "gameBackground": "black"
+    }
+  },
+  {
+    "title": "Venomous",
+    "values": {
+      "2": "#34a0a4",
+      "4": "#006466ff",
+      "8": "#065a60ff",
+      "16": "#0b525bff",
+      "32": "#144552ff",
+      "64": "#1b3a4bff",
+      "128": "#212f45ff",
+      "256": "#272640ff",
+      "512": "#312244ff",
+      "1024": "#3e1f47ff",
+      "2048": "#4d194dff",
+      "altText": "#03071eff",
+      "backgroundColor": "#faf3dd",
+      "tileBackground": "#0d2818",
+      "gameBackground": "black"
+    }
+  }
+]
