@@ -105,6 +105,7 @@
       "backgroundColor": "#ffb700",
       "tileBackground": "#0d1b2a",
       "gameBackground": "black",
+      "textColor": "#fff",
       "overlayColor": "rgba(255, 255, 255, 0.98)"
     }
   },
@@ -126,6 +127,7 @@
       "backgroundColor": "#faf3dd",
       "tileBackground": "#0d2818",
       "gameBackground": "black",
+      "textColor": "#fff",
       "overlayColor": "rgba(255, 255, 255, 0.98)"
     }
   }
