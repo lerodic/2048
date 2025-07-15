@@ -16,6 +16,10 @@ class HTMLElementLocator {
     ) as HTMLDivElement;
   }
 
+  getAllTiles(): NodeListOf<HTMLDivElement> {
+    return document.querySelectorAll(".tile");
+  }
+
   getGameContainerElement(): HTMLDivElement {
     return document.querySelector("#game-container") as HTMLDivElement;
   }
@@ -68,6 +72,10 @@ class HTMLElementLocator {
 
   getAllThemeElements(): NodeListOf<HTMLButtonElement> {
     return document.querySelectorAll(".select-theme");
+  }
+
+  getBannerElement(): HTMLDivElement {
+    return document.querySelector(".game-over-banner") as HTMLDivElement;
   }
 }
 

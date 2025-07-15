@@ -38,6 +38,17 @@ class UIGameService {
     gameContainer.classList.add("show");
   }
 
+  removeAllTiles() {
+    const tiles = this.locator.getAllTiles();
+
+    tiles.forEach((tile) => {
+      tile.classList.add("despawn");
+      setTimeout(() => {
+        tile.remove();
+      }, this.config.ANIMATION_DURATION);
+    });
+  }
+
   spawnTile(tile: Tile) {
     const container = this.locator.getTileElementContainer(
       tile.positionalIndex

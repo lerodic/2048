@@ -30,6 +30,7 @@ class GameService {
   init() {
     this.scoreService.loadSavedHighScore();
     this.emitter.on("gameStarted", this.spawnInitialTiles);
+    this.emitter.on("gameRestarted", this.restartGame);
   }
 
   private spawnInitialTiles() {
@@ -45,6 +46,16 @@ class GameService {
     this.tileService.spawn(tile);
 
     this.emitter.emit("tileSpawned", tile);
+  }
+
+  restartGame() {
+    this.tileService.resetTiles();
+
+    setTimeout(() => {
+      this.spawnInitialTiles();
+      this.scoreService.resetScore();
+      this.emitter.emit("inputEnabled");
+    }, 500);
   }
 
   moveTiles(direction: Direction): boolean {

@@ -28,6 +28,7 @@ describe("GameController", () => {
       spawnTile: vi.fn(),
       moveTiles: vi.fn(),
       resetMergeStatus: vi.fn(),
+      evaluateGameState: vi.fn(),
     } as unknown as GameService;
     emitter = vi.mocked(mitt<AppEvents>());
     config = {

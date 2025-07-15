@@ -11,6 +11,11 @@ class ScoreService {
 
   constructor(@inject(TYPES.EventEmitter) private emitter: EventEmitter) {}
 
+  resetScore() {
+    this.currentScore = 0;
+    this.emitter.emit("scoreUpdated", this.currentScore);
+  }
+
   loadSavedHighScore() {
     const savedScore = localStorage.getItem("highScore");
     if (!savedScore) return;
@@ -37,9 +42,6 @@ class ScoreService {
   }
 
   private isNewHighScore(): boolean {
-    console.log(this.currentScore);
-    console.log(this.highScore);
-
     return this.currentScore > this.highScore;
   }
 

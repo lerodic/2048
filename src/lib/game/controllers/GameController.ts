@@ -43,6 +43,7 @@ class GameController implements Controller {
   private endTurn() {
     this.gameService.spawnTile();
     this.gameService.resetMergeStatus();
+    this.gameService.evaluateGameState();
 
     if (this.gameService.isGameOver) {
       return this.endGame();
