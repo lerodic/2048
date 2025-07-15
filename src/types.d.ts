@@ -84,5 +84,7 @@ export interface Theme {
     backgroundColor: string;
     tileBackground: string;
     gameBackground: string;
+    textColor: string;
+    overlayColor: string;
   };
 }

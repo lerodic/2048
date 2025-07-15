@@ -4,7 +4,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--overlayColor);
   transition: transform 0s, opacity 0.5s;
   transform: translateX(-100vw);
   opacity: 0;
@@ -124,7 +124,7 @@
 
     .theme-title {
       font-weight: 600;
-      color: var(--backgroundColor);
+      color: var(--textColor);
     }
   }
 }
