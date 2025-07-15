@@ -16,6 +16,8 @@ import KeyboardInputService from "../../lib/input/KeyboardInputService";
 import TouchInputService from "../../lib/input/TouchInputService";
 import UIScoreService from "../../lib/ui/services/UIScoreService";
 import ScoreService from "../../lib/game/services/ScoreService";
+import UIThemeService from "../../lib/ui/services/UIThemeService";
+import MouseInputService from "../../lib/input/MouseInputService";
 
 function setupContainer(): Container {
   const container = new Container();
@@ -39,6 +41,10 @@ function setupContainer(): Container {
     .to(TouchInputService);
   container.bind<UIScoreService>(TYPES.UIScoreService).to(UIScoreService);
   container.bind<ScoreService>(TYPES.ScoreService).to(ScoreService);
+  container.bind<UIThemeService>(TYPES.UIThemeService).to(UIThemeService);
+  container
+    .bind<MouseInputService>(TYPES.MouseInputService)
+    .to(MouseInputService);
 
   container.bind<EventEmitter>(TYPES.EventEmitter).toConstantValue(emitter);
   container.bind<Config>(TYPES.Config).toConstantValue(APP_CONFIG);
