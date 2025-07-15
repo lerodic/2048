@@ -5,6 +5,7 @@ import mitt from "mitt";
 import type { AppEvents, EventEmitter } from "../src/types.d";
 import UIGameService from "../src/lib/ui/services/UIGameService";
 import UIScoreService from "../src/lib/ui/services/UIScoreService";
+import UIThemeService from "../src/lib/ui/services/UIThemeService";
 
 vi.mock("mitt", () => {
   return {
@@ -19,6 +20,7 @@ describe("ViewController", () => {
   let emitter: EventEmitter;
   let uiGameService: UIGameService;
   let uiScoreService: UIScoreService;
+  let uiThemeService: UIThemeService;
   let viewController: ViewController;
 
   beforeEach(() => {
@@ -32,13 +34,24 @@ describe("ViewController", () => {
       updateScore: vi.fn(),
       updateHighScore: vi.fn(),
     } as unknown as UIScoreService;
-    viewController = new ViewController(emitter, uiGameService, uiScoreService);
+    uiThemeService = {
+      init: vi.fn(),
+    } as unknown as UIThemeService;
+    viewController = new ViewController(
+      emitter,
+      uiGameService,
+      uiScoreService,
+      uiThemeService
+    );
   });
 
   describe("init", () => {
     it("should init ViewController", () => {
       viewController.init();
 
+      expect(uiGameService.init).toHaveBeenCalledOnce();
+      expect(uiScoreService.init).toHaveBeenCalledOnce();
+      expect(uiThemeService.init).toHaveBeenCalledOnce();
       expect(uiGameService.init).toHaveBeenCalledOnce();
       expect(emitter.on).toHaveBeenCalledWith(
         "tileSpawned",
