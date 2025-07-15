@@ -14,6 +14,8 @@ const TYPES = {
   KeyboardInputService: Symbol.for("KeyboardInputService"),
   UIScoreService: Symbol.for("UIScoreService"),
   ScoreService: Symbol.for("ScoreService"),
+  UIThemeService: Symbol.for("UIThemeService"),
+  MouseInputService: Symbol.for("MouseInputService"),
 };
 
 export default TYPES;
