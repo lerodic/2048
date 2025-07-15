@@ -6,6 +6,7 @@ import type { AppEvents, EventEmitter } from "../src/types.d";
 import UIGameService from "../src/lib/ui/services/UIGameService";
 import UIScoreService from "../src/lib/ui/services/UIScoreService";
 import UIThemeService from "../src/lib/ui/services/UIThemeService";
+import UIBannerService from "../src/lib/ui/services/UIBannerService";
 
 vi.mock("mitt", () => {
   return {
@@ -21,6 +22,7 @@ describe("ViewController", () => {
   let uiGameService: UIGameService;
   let uiScoreService: UIScoreService;
   let uiThemeService: UIThemeService;
+  let uiBannerService: UIBannerService;
   let viewController: ViewController;
 
   beforeEach(() => {
@@ -37,11 +39,15 @@ describe("ViewController", () => {
     uiThemeService = {
       init: vi.fn(),
     } as unknown as UIThemeService;
+    uiBannerService = {
+      init: vi.fn(),
+    } as unknown as UIBannerService;
     viewController = new ViewController(
       emitter,
       uiGameService,
       uiScoreService,
-      uiThemeService
+      uiThemeService,
+      uiBannerService
     );
   });
 
