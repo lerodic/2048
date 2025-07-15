@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import "reflect-metadata";
 import UIGameService from "../src/lib/ui/services/UIGameService";
 import { describe, it, vi, expect, beforeEach, afterEach } from "vitest";
@@ -8,8 +9,9 @@ import {
   provideMergeTilesTestCases,
   provideMoveTileTestCases,
   provideSpawnTileTestCases,
+  tiles,
 } from "./fixtures/UIGameService.fixtures";
-import Tile from "../src/lib/game/entities/Tile";
+import { setupDOM, setupDOMWithPreExistingTiles } from "./fixtures/ui.fixtures";
 
 vi.mock("mitt", () => {
   return {
@@ -20,198 +22,166 @@ vi.mock("mitt", () => {
   };
 });
 
-function createFakeTileElement() {
-  return {
-    classList: {
-      add: vi.fn(),
-      remove: vi.fn(),
-    },
-    remove: vi.fn(),
-    style: {},
-    insertAdjacentHTML: vi.fn(),
-    innerHTML: "",
-  } as unknown as HTMLDivElement;
-}
-
-function createFakeTileValueElement() {
-  return {
-    classList: {
-      add: vi.fn(),
-      remove: vi.fn(),
-    },
-    remove: vi.fn(),
-    style: {},
-    insertAdjacentHTML: vi.fn(),
-    innerHTML: "",
-  } as unknown as HTMLParagraphElement;
-}
-
-function createFakeTileContainerElement() {
-  return {
-    classList: {
-      add: vi.fn(),
-      remove: vi.fn(),
-    },
-    remove: vi.fn(),
-    style: {},
-    insertAdjacentHTML: vi.fn(),
-    innerHTML: "",
-  } as unknown as HTMLDivElement;
-}
-
 describe("UIGameService", () => {
+  let uiGameService: UIGameService;
   let locator: HTMLElementLocator;
   let config: Config;
   let emitter: EventEmitter;
-  let uiGame: UIGameService;
-  let tileElement: HTMLDivElement;
-  let tileValueElement: HTMLParagraphElement;
 
   beforeEach(() => {
     vi.useFakeTimers();
 
-    tileElement = createFakeTileElement();
-    tileValueElement = createFakeTileValueElement();
-
-    locator = {
-      getGameContainerElement: vi.fn(() => tileElement),
-      getTileElementContainer: vi.fn(() => tileElement),
-      getTileElement: vi.fn(() => tileElement),
-      getTileValueElement: vi.fn(() => tileValueElement),
-      getTileContainerElement: vi.fn(),
-    } as unknown as HTMLElementLocator;
-
+    locator = new HTMLElementLocator();
     config = {
       ANIMATION_DURATION: 250,
-    } as unknown as Config;
-
+    } as Config;
     emitter = vi.mocked(mitt<AppEvents>());
-
-    uiGame = new UIGameService(locator, config, emitter);
+    uiGameService = new UIGameService(locator, config, emitter);
   });
 
   afterEach(() => {
     vi.clearAllTimers();
-    vi.restoreAllMocks();
+    vi.resetAllMocks();
   });
 
   describe("init", () => {
-    it("should animate game container", () => {
-      uiGame.init();
+    it("should init UIGameService", () => {
+      setupDOM();
+
+      uiGameService.init();
 
       vi.advanceTimersByTime(2 * config.ANIMATION_DURATION);
 
-      expect(locator.getGameContainerElement).toHaveBeenCalledOnce();
-      const gameContainer = locator.getGameContainerElement();
-      expect(gameContainer.classList.add).toHaveBeenCalledWith("show");
+      const gameContainerElement = document.querySelector("#game-container");
 
-      vi.advanceTimersByTime(3 * config.ANIMATION_DURATION);
+      expect(gameContainerElement?.classList.contains("show")).toBe(true);
+
+      vi.advanceTimersByTime(2 * config.ANIMATION_DURATION);
+
       expect(emitter.emit).toHaveBeenCalledWith("initialAnimationDone");
+    });
+  });
+
+  describe("removeAllTiles", () => {
+    it.each(tiles)("should remove all tiles ($numTiles)", ({ tiles }) => {
+      setupDOMWithPreExistingTiles(tiles);
+
+      uiGameService.removeAllTiles();
+
+      vi.advanceTimersByTime(config.ANIMATION_DURATION);
+
+      const tileElements = document.querySelectorAll(".tile");
+
+      expect(tileElements.length).toBe(0);
     });
   });
 
   describe("spawnTile", () => {
     it.each(provideSpawnTileTestCases())(
-      "should spawn tile at position x: $position.x, y: $position.y",
-      ({ position, positionalIndex, id }) => {
-        const tile = new Tile(position, 2, id);
-        const markAsSpawned = vi.spyOn(tile, "markAsSpawned");
-        markAsSpawned.mockReturnValue();
+      "should spawn tile at position: { x: $tile.position.x, y: $tile.position.y}",
+      ({ tile, tiles }) => {
+        setupDOMWithPreExistingTiles(tiles);
 
-        uiGame.spawnTile(tile);
-
-        expect(locator.getTileElementContainer).toHaveBeenCalledWith(
-          positionalIndex
-        );
-        const container = locator.getTileElementContainer(positionalIndex);
-        expect(container.insertAdjacentHTML).toHaveBeenCalledWith(
-          "beforeend",
-          tile.asHtml
-        );
+        uiGameService.spawnTile(tile);
 
         vi.advanceTimersByTime(config.ANIMATION_DURATION);
 
-        expect(locator.getTileElement).toHaveBeenCalledWith(id);
-        const tileElement = locator.getTileElement(id);
-        expect(tileElement.classList.remove).toHaveBeenCalledWith("spawning");
-        expect(markAsSpawned).toHaveBeenCalledOnce();
+        const tileContainerElement = document.querySelector(
+          `.tile-container[data-container-id="${tile.positionalIndex}"]`
+        );
+        const tileElement = document.querySelector(
+          `.tile[data-tile-id="${tile.id}"]`
+        );
+
+        expect(tileContainerElement?.innerHTML).toStrictEqual(tile.asHtml);
+        expect(tileElement?.classList.contains("spawning")).toBe(false);
       }
     );
   });
 
   describe("moveTile", () => {
     it.each(provideMoveTileTestCases())(
-      "should move tile { x: $tile.position.x, y: $tile.position.y } $distance step(s) in direction: $direction",
-      ({ tile, direction, distance, movementClass }) => {
-        const oldTileContainer = createFakeTileContainerElement();
-        const newTileContainer = createFakeTileContainerElement();
-        (locator.getTileContainerElement as any).mockReturnValueOnce(
-          oldTileContainer
+      "should move tile at { x: $event.tile.position.x, y: $event.tile.position.y} $event.distance step(s) in direction $event.direction",
+      ({ tiles, event }) => {
+        setupDOMWithPreExistingTiles(tiles);
+
+        uiGameService.moveTile(event);
+
+        const tileElement = document.querySelector(
+          `.tile[data-tile-id="${event.tile.id}"]`
         );
-        (locator.getTileContainerElement as any).mockReturnValueOnce(
-          newTileContainer
-        );
+        const movementClass = `move-tile-${event.direction.toLowerCase()}-${
+          event.distance
+        }`;
 
-        uiGame.moveTile({ tile, direction, distance });
-
-        expect(tileElement.classList.add).toHaveBeenCalledWith(movementClass);
-
-        vi.advanceTimersByTime(config.ANIMATION_DURATION);
-
-        expect(oldTileContainer.innerHTML).toStrictEqual("");
-        expect(newTileContainer.insertAdjacentHTML).toHaveBeenCalledWith(
-          "beforeend",
-          tile.asHtml
-        );
+        expect(tileElement?.classList.contains(movementClass)).toBe(true);
       }
     );
   });
 
   describe("updateZIndex", () => {
-    it("should update 'zIndex' property correctly", () => {
-      const zIndex = 2;
+    it.each(tiles)(
+      "should update the 'z-index' property correctly",
+      ({ tiles }) => {
+        const zIndex = 10;
+        setupDOMWithPreExistingTiles(tiles);
 
-      uiGame.updateZIndex({
-        tile: new Tile({ x: 0, y: 0 }, 2, "1"),
-        zIndex,
-      });
+        uiGameService.updateZIndex({ tile: tiles[0], zIndex });
 
-      expect(tileElement.style.zIndex).toStrictEqual(`${zIndex}`);
-    });
+        const tileElement = document.querySelector(
+          `.tile[data-tile-id="${tiles[0].id}"]`
+        ) as HTMLDivElement;
+
+        expect(tileElement.style.zIndex).toStrictEqual(zIndex.toString());
+      }
+    );
   });
 
   describe("mergeTiles", () => {
     it.each(provideMergeTilesTestCases())(
-      "should move tile { x: $tile.position.x, y: $tile.position.y } $distance step(s) in direction: $direction, then remove it",
-      ({ tile, mergedInto, direction, distance, movementClass }) => {
-        uiGame.mergeTiles({
-          tile,
-          mergedInto,
-          direction,
-          distance,
-        });
+      "should merge { x: $event.tile.position.x, y: $event.tile.position.y } into { x: $event.mergedInto.position.x, y: $event.mergedInto.position.y }",
+      ({ tiles, event }) => {
+        setupDOMWithPreExistingTiles(tiles);
 
-        expect(tileElement.classList.add).toHaveBeenCalledWith(movementClass);
+        uiGameService.mergeTiles(event);
+
+        const movementClass = `move-tile-${event.direction.toLowerCase()}-${
+          event.distance
+        }`;
+        const tileElementContainsMovementClass = document
+          .querySelector(`.tile[data-tile-id="${event.tile.id}"]`)
+          ?.classList.contains(movementClass);
+
+        expect(tileElementContainsMovementClass).toBe(true);
 
         vi.advanceTimersByTime(config.ANIMATION_DURATION);
 
-        expect(tileElement.remove).toHaveBeenCalledOnce();
-
-        vi.advanceTimersByTime(config.ANIMATION_DURATION);
-
-        expect(tileValueElement.innerHTML).toStrictEqual(tile.value.toString());
-        expect(tileElement.classList.remove).toHaveBeenCalledWith(
-          `value-${tile.value / 2}`
+        const tileElement = document.querySelector(
+          `.tile[data-tile-id="${event.tile.id}"]`
         );
-        expect(tileElement.classList.add).toHaveBeenCalledWith(
-          `value-${tile.value}`
+
+        expect(tileElement).toBeNull();
+
+        const mergedIntoTileElement = document.querySelector(
+          `.tile[data-tile-id="${event.mergedInto.id}"]`
         );
-        expect(tileValueElement.classList.add).toHaveBeenCalledWith("merged");
+        const mergedIntoTileValueElement =
+          mergedIntoTileElement?.querySelector(".tile-value");
+
+        expect(mergedIntoTileValueElement?.innerHTML).toStrictEqual(
+          event.tile.value.toString()
+        );
+        expect(
+          mergedIntoTileElement?.classList.contains(`value-${event.tile.value}`)
+        ).toBe(true);
+        expect(mergedIntoTileValueElement?.classList.contains("merged")).toBe(
+          true
+        );
 
         vi.advanceTimersByTime(config.ANIMATION_DURATION);
 
-        expect(tileValueElement.classList.remove).toHaveBeenCalledWith(
-          "merged"
+        expect(mergedIntoTileValueElement?.classList.contains("merged")).toBe(
+          false
         );
       }
     );

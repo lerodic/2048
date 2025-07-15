@@ -38,6 +38,10 @@ class TileService {
     this.tiles.push(tile);
   }
 
+  resetTiles() {
+    this.tiles = [];
+  }
+
   isAnyActionPossible(): boolean {
     const directions: Direction[] = ["Up", "Down", "Left", "Right"];
 
