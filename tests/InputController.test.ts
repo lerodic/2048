@@ -5,6 +5,7 @@ import mitt from "mitt";
 import KeyboardInputService from "../src/lib/input/KeyboardInputService";
 import TouchInputService from "../src/lib/input/TouchInputService";
 import { AppEvents, EventEmitter } from "../src/types.d";
+import MouseInputService from "../src/lib/input/MouseInputService";
 
 vi.mock("mitt", () => {
   return {
@@ -19,6 +20,7 @@ describe("InputController", () => {
   let inputController: InputController;
   let keyboard: KeyboardInputService;
   let touch: TouchInputService;
+  let mouse: MouseInputService;
   let emitter: EventEmitter;
 
   beforeEach(() => {
@@ -32,6 +34,10 @@ describe("InputController", () => {
       handleTouchEnd: vi.fn(),
     } as unknown as TouchInputService;
 
+    mouse = {
+      handleClick: vi.fn(),
+    } as unknown as MouseInputService;
+
     emitter = vi.mocked(mitt<AppEvents>());
 
     // @ts-ignore
@@ -40,7 +46,7 @@ describe("InputController", () => {
       removeEventListener: vi.fn(),
     };
 
-    inputController = new InputController(keyboard, touch, emitter);
+    inputController = new InputController(keyboard, touch, mouse, emitter);
   });
 
   afterEach(() => {
@@ -81,9 +87,15 @@ describe("InputController", () => {
         (inputController as any).enableInput
       );
 
+      expect(window.addEventListener).toHaveBeenNthCalledWith(
+        1,
+        "click",
+        mouse.handleClick
+      );
+
       for (let i = 0; i < 4; i++) {
         expect(window.addEventListener).toHaveBeenNthCalledWith(
-          i + 1,
+          i + 2,
           listeners[i].event,
           listeners[i].callback
         );

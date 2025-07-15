@@ -1,0 +1,130 @@
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--overlayColor);
+  transition: transform 0s, opacity 0.5s;
+  transform: translateX(-100vw);
+  opacity: 0;
+  z-index: 999;
+
+  &.show {
+    transform: translateX(0vw);
+    opacity: 1;
+
+    &.hide {
+      opacity: 0;
+    }
+  }
+}
+
+.toggle-theme-list {
+  height: 2.5rem;
+  width: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gameBackground);
+  border: none;
+  border-radius: 0.5rem;
+  position: fixed;
+  top: 3rem;
+  right: calc((100vw - 18.4rem) / 2);
+  z-index: 1000;
+  transform: scale(0);
+  opacity: 0;
+
+  &.show {
+    transition: all 0.5s;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.translucent {
+    opacity: 0.1;
+  }
+
+  img {
+    height: 50%;
+    width: auto;
+    object-fit: cover;
+    filter: invert(1);
+  }
+}
+
+.theme-list {
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-100vw);
+  z-index: 999;
+  row-gap: 1rem;
+  transition: all 0.5s;
+  opacity: 0;
+
+  &.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 200rem;
+    border: none;
+    background-color: var(--tileBackground);
+    transition: all 0.375s;
+    border: 2px solid var(--tileBackground);
+
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    &.active {
+      .theme-preview {
+        img {
+          transform: scale(1);
+        }
+      }
+    }
+
+    .theme-preview {
+      height: 1.25rem;
+      width: 1.25rem;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        transition: all 0.375s;
+        transform: scale(0);
+        height: 0.75rem;
+        width: 0.75rem;
+        object-fit: cover;
+      }
+    }
+
+    .theme-title {
+      font-weight: 600;
+      color: var(--textColor);
+    }
+  }
+}

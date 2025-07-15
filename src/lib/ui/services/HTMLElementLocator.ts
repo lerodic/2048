@@ -47,6 +47,28 @@ class HTMLElementLocator {
       ".score-container__high-score .score"
     ) as HTMLParagraphElement;
   }
+
+  getThemeListElement(): HTMLDivElement {
+    return document.querySelector(".theme-list") as HTMLDivElement;
+  }
+
+  getToggleThemeListElement(): HTMLButtonElement {
+    return document.querySelector(".toggle-theme-list") as HTMLButtonElement;
+  }
+
+  getOverlayElement(): HTMLDivElement {
+    return document.querySelector(".overlay") as HTMLDivElement;
+  }
+
+  getSelectThemeElement(theme: string): HTMLButtonElement {
+    return document.querySelector(
+      `.select-theme[data-theme="${theme}"]`
+    ) as HTMLButtonElement;
+  }
+
+  getAllThemeElements(): NodeListOf<HTMLButtonElement> {
+    return document.querySelectorAll(".select-theme");
+  }
 }
 
 export default HTMLElementLocator;
