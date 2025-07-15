@@ -4,6 +4,7 @@ import TYPES from "../../config/inversify/inversify.types";
 import type KeyboardInputService from "./KeyboardInputService";
 import type TouchInputService from "./TouchInputService";
 import type { Controller, EventEmitter } from "../../types";
+import type MouseInputService from "./MouseInputService";
 
 @boundClass
 @injectable()
@@ -11,12 +12,15 @@ class InputController implements Controller {
   constructor(
     @inject(TYPES.KeyboardInputService) private keyboard: KeyboardInputService,
     @inject(TYPES.TouchInputService) private touch: TouchInputService,
+    @inject(TYPES.MouseInputService) private mouse: MouseInputService,
     @inject(TYPES.EventEmitter) private emitter: EventEmitter
   ) {}
 
   init() {
     this.emitter.on("inputDisabled", this.disableInput);
     this.emitter.on("inputEnabled", this.enableInput);
+    window.addEventListener("click", this.mouse.handleClick);
+
     this.enableInput();
   }
 
