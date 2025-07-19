@@ -50,19 +50,19 @@ class TouchInputService {
 
   private qualifiesAsTouchInput(): boolean {
     return (
-      this.getVerticalOffset() >= this.config.MIN_TOUCH_THRESHOLD ||
-      this.getHorizontalOffset() >= this.config.MIN_TOUCH_THRESHOLD
+      this.getVerticalDelta() >= this.config.MIN_TOUCH_THRESHOLD ||
+      this.getHorizontalDelta() >= this.config.MIN_TOUCH_THRESHOLD
     );
   }
 
-  private getVerticalOffset(): number {
+  private getVerticalDelta(): number {
     return (
       (this.currentTouchPosition.y as number) -
       (this.startingTouchPosition.y as number)
     );
   }
 
-  private getHorizontalOffset(): number {
+  private getHorizontalDelta(): number {
     return (
       (this.currentTouchPosition.x as number) -
       (this.startingTouchPosition.x as number)
@@ -77,16 +77,16 @@ class TouchInputService {
 
   private isHorizontalGesture(): boolean {
     return (
-      Math.abs(this.getHorizontalOffset()) > Math.abs(this.getVerticalOffset())
+      Math.abs(this.getHorizontalDelta()) > Math.abs(this.getVerticalDelta())
     );
   }
 
   private getHorizontalDirection(): Direction {
-    return this.getHorizontalOffset() > 0 ? "Right" : "Left";
+    return this.getHorizontalDelta() > 0 ? "Right" : "Left";
   }
 
   private getVerticalDirection(): Direction {
-    return this.getVerticalOffset() > 0 ? "Down" : "Up";
+    return this.getVerticalDelta() > 0 ? "Down" : "Up";
   }
 
   private resetTouchPosition() {
