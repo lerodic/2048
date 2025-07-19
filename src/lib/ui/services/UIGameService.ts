@@ -69,13 +69,8 @@ class UIGameService {
   }
 
   moveTile(event: TileMovedEvent) {
-    const tileElement = this.locator.getTileElement(event.tile.id);
-    const tileClass = this.getMovementClassName(
-      event.direction,
-      event.distance
-    );
+    this.animateTileMove(event);
 
-    tileElement.classList.add(tileClass);
     setTimeout(() => {
       this.respawnTile(event.tile);
     }, this.config.ANIMATION_DURATION);
@@ -86,6 +81,16 @@ class UIGameService {
     distance: TileTravelDistance
   ): string {
     return `move-tile-${direction.toLowerCase()}-${distance}`;
+  }
+
+  private animateTileMove(event: TileMovedEvent) {
+    const tileElement = this.locator.getTileElement(event.tile.id);
+    const tileClass = this.getMovementClassName(
+      event.direction,
+      event.distance
+    );
+
+    tileElement.classList.add(tileClass);
   }
 
   private respawnTile(tile: Tile) {
@@ -107,25 +112,18 @@ class UIGameService {
   }
 
   mergeTiles(event: TilesMergedEvent) {
-    this.moveAndRemove(event.tile, event.direction, event.distance);
+    this.animateTileMove(event);
 
     setTimeout(() => {
+      this.removeTile(event.tile.id);
       this.updateTileAppearance(event.mergedInto);
     }, this.config.ANIMATION_DURATION);
   }
 
-  private moveAndRemove(
-    tile: Tile,
-    direction: Direction,
-    distance: TileTravelDistance
-  ) {
-    const tileElement = this.locator.getTileElement(tile.id);
-    const tileClass = this.getMovementClassName(direction, distance);
+  private removeTile(tileId: string) {
+    const tileElement = this.locator.getTileElement(tileId);
 
-    tileElement.classList.add(tileClass);
-    setTimeout(() => {
-      tileElement.remove();
-    }, this.config.ANIMATION_DURATION);
+    tileElement.remove();
   }
 
   private updateTileAppearance(tile: Tile) {
