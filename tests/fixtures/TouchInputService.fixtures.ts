@@ -46,6 +46,15 @@ export function provideValidTouchInputTestCases() {
       direction: "Right",
     },
     {
+      touchStartEvent: { touches: [{ clientX: 12, clientY: 10 }] },
+      touchEvents: [
+        {
+          touches: [{ clientX: -40, clientY: 12 }],
+        },
+      ],
+      direction: "Left",
+    },
+    {
       touchStartEvent: { touches: [{ clientX: 0, clientY: 1200 }] },
       touchEvents: [
         {

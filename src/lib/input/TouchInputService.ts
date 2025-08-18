@@ -50,8 +50,8 @@ class TouchInputService {
 
   private qualifiesAsTouchInput(): boolean {
     return (
-      this.getVerticalDelta() >= this.config.MIN_TOUCH_THRESHOLD ||
-      this.getHorizontalDelta() >= this.config.MIN_TOUCH_THRESHOLD
+      Math.abs(this.getVerticalDelta()) >= this.config.MIN_TOUCH_THRESHOLD ||
+      Math.abs(this.getHorizontalDelta()) >= this.config.MIN_TOUCH_THRESHOLD
     );
   }
 
