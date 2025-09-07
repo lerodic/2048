@@ -98,30 +98,14 @@ class GameService {
   private moveTileInDirection(tile: Tile, direction: Direction) {
     switch (direction) {
       case "Up":
-        return this.moveTileUp(tile);
+        return tile.moveUp();
       case "Down":
-        return this.moveTileDown(tile);
+        return tile.moveDown();
       case "Left":
-        return this.moveTileLeft(tile);
+        return tile.moveLeft();
       case "Right":
-        return this.moveTileRight(tile);
+        return tile.moveRight();
     }
-  }
-
-  private moveTileUp(tile: Tile) {
-    tile.moveUp();
-  }
-
-  private moveTileDown(tile: Tile) {
-    tile.moveDown();
-  }
-
-  private moveTileLeft(tile: Tile) {
-    tile.moveLeft();
-  }
-
-  private moveTileRight(tile: Tile) {
-    tile.moveRight();
   }
 
   private performTileMerge(tile: Tile, direction: Direction, distance: number) {
