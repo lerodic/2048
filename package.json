@@ -10,7 +10,7 @@
     "test": "vitest --reporter=verbose"
   },
   "devDependencies": {
-    "happy-dom": "^18.0.1",
+    "happy-dom": "^20.3.0",
     "sass": "^1.89.2",
     "sass-loader": "^16.0.5",
     "typescript": "~5.8.3",
