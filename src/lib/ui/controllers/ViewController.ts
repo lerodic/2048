@@ -18,7 +18,7 @@ class ViewController implements Controller {
     @inject(TYPES.UIBannerService) private uiBanner: UIBannerService
   ) {}
 
-  get uiServices(): UIService[] {
+  private get uiServices(): UIService[] {
     return [this.uiGame, this.uiScore, this.uiTheme, this.uiBanner];
   }
 
