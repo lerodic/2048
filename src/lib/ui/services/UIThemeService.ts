@@ -3,12 +3,12 @@ import { inject, injectable } from "inversify";
 import TYPES from "../../../config/inversify/inversify.types";
 import type HTMLElementLocator from "./HTMLElementLocator";
 import THEMES from "../../../assets/themes/themes.json" assert { type: "json" };
-import type { Theme } from "../../../types";
+import type { Theme, UIService } from "../../../types";
 import CheckmarkIcon from "../../../assets/images/checkmark.webp";
 
 @boundClass
 @injectable()
-class UIThemeService {
+class UIThemeService implements UIService {
   constructor(
     @inject(TYPES.HTMLElementLocator) private locator: HTMLElementLocator
   ) {}

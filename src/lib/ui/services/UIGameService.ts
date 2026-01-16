@@ -10,12 +10,13 @@ import type {
   TileMovedEvent,
   TilesMergedEvent,
   TileTravelDistance,
+  UIService,
   ZIndexUpdatedEvent,
 } from "../../../types";
 
 @boundClass
 @injectable()
-class UIGameService {
+class UIGameService implements UIService {
   constructor(
     @inject(TYPES.HTMLElementLocator) private locator: HTMLElementLocator,
     @inject(TYPES.Config) private config: Config,
