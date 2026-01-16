@@ -2,13 +2,18 @@ import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
 import TYPES from "../../../config/inversify/inversify.types";
 import HTMLElementLocator from "./HTMLElementLocator";
+import type { UIService } from "../../../types";
 
 @injectable()
 @boundClass
-class UIBannerService {
+class UIBannerService implements UIService {
   constructor(
     @inject(TYPES.HTMLElementLocator) private locator: HTMLElementLocator
   ) {}
+
+  init() {
+    // intentionally left blank
+  }
 
   show() {
     const bannerElement = this.locator.getBannerElement();

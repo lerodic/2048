@@ -88,3 +88,7 @@ export interface Theme {
     overlayColor: string;
   };
 }
+
+export interface UIService {
+  init(): void;
+}

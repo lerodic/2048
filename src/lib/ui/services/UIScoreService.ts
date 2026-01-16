@@ -2,11 +2,11 @@ import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
 import TYPES from "../../../config/inversify/inversify.types";
 import type HTMLElementLocator from "./HTMLElementLocator";
-import type { Config } from "../../../types";
+import type { Config, UIService } from "../../../types";
 
 @boundClass
 @injectable()
-class UIScoreService {
+class UIScoreService implements UIService {
   constructor(
     @inject(TYPES.HTMLElementLocator) private locator: HTMLElementLocator,
     @inject(TYPES.Config) private config: Config

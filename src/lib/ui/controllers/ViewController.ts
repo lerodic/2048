@@ -1,6 +1,6 @@
 import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
-import type { Controller, EventEmitter } from "../../../types";
+import type { Controller, EventEmitter, UIService } from "../../../types";
 import TYPES from "../../../config/inversify/inversify.types";
 import type UIGameService from "../services/UIGameService";
 import type UIScoreService from "../services/UIScoreService";
@@ -18,10 +18,12 @@ class ViewController implements Controller {
     @inject(TYPES.UIBannerService) private uiBanner: UIBannerService
   ) {}
 
+  get uiServices(): UIService[] {
+    return [this.uiGame, this.uiScore, this.uiTheme, this.uiBanner];
+  }
+
   init() {
-    this.uiGame.init();
-    this.uiScore.init();
-    this.uiTheme.init();
+    this.uiServices.forEach((service) => service.init());
 
     this.registerEventListeners();
   }
