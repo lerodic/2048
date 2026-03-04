@@ -10,7 +10,7 @@ import CheckmarkIcon from "../../../assets/images/checkmark.webp";
 @injectable()
 class UIThemeService implements UIService {
   constructor(
-    @inject(TYPES.HTMLElementLocator) private locator: HTMLElementLocator
+    @inject(TYPES.HTMLElementLocator) private locator: HTMLElementLocator,
   ) {}
 
   init() {
@@ -57,12 +57,12 @@ class UIThemeService implements UIService {
   private toggleOverlay() {
     const overlayElement = this.locator.getOverlayElement();
 
-    return this.shouldShowOverlay(overlayElement)
+    return this.shouldHideOverlay(overlayElement)
       ? this.hideOverlay(overlayElement)
       : this.showOverlay(overlayElement);
   }
 
-  private shouldShowOverlay(overlayElement: HTMLDivElement): boolean {
+  private shouldHideOverlay(overlayElement: HTMLDivElement): boolean {
     return overlayElement.classList.contains("show");
   }
 
@@ -107,7 +107,7 @@ class UIThemeService implements UIService {
     const themeElements = this.locator.getAllThemeElements();
 
     themeElements.forEach((themeElement) =>
-      themeElement.classList.remove("active")
+      themeElement.classList.remove("active"),
     );
   }
 
