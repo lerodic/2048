@@ -1,10 +1,10 @@
 import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
-import TYPES from "../../config/inversify/inversify.types";
-import type KeyboardInputService from "./KeyboardInputService";
-import type TouchInputService from "./TouchInputService";
-import type { Controller, EventEmitter } from "../../types";
-import type MouseInputService from "./MouseInputService";
+import TYPES from "../../../config/inversify/inversify.types";
+import type KeyboardInputService from "../services/KeyboardInputService";
+import type TouchInputService from "../services/TouchInputService";
+import type { Controller, EventEmitter } from "../../../types";
+import type MouseInputService from "../services/MouseInputService";
 
 @boundClass
 @injectable()
@@ -13,7 +13,7 @@ class InputController implements Controller {
     @inject(TYPES.KeyboardInputService) private keyboard: KeyboardInputService,
     @inject(TYPES.TouchInputService) private touch: TouchInputService,
     @inject(TYPES.MouseInputService) private mouse: MouseInputService,
-    @inject(TYPES.EventEmitter) private emitter: EventEmitter
+    @inject(TYPES.EventEmitter) private emitter: EventEmitter,
   ) {}
 
   init() {

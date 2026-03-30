@@ -11,13 +11,13 @@ import TileFactory from "../../lib/game/factories/TileFactory";
 import APP_CONFIG from "../app.config";
 import UIGameService from "../../lib/ui/services/UIGameService";
 import HTMLElementLocator from "../../lib/ui/services/HTMLElementLocator";
-import InputController from "../../lib/input/InputController";
-import KeyboardInputService from "../../lib/input/KeyboardInputService";
-import TouchInputService from "../../lib/input/TouchInputService";
+import InputController from "../../lib/input/controllers/InputController";
+import KeyboardInputService from "../../lib/input/services/KeyboardInputService";
+import TouchInputService from "../../lib/input/services/TouchInputService";
 import UIScoreService from "../../lib/ui/services/UIScoreService";
 import ScoreService from "../../lib/game/services/ScoreService";
 import UIThemeService from "../../lib/ui/services/UIThemeService";
-import MouseInputService from "../../lib/input/MouseInputService";
+import MouseInputService from "../../lib/input/services/MouseInputService";
 import UIBannerService from "../../lib/ui/services/UIBannerService";
 
 function setupContainer(): Container {
