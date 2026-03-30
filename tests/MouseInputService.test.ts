@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import "reflect-metadata";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import MouseInputService from "../src/lib/input/MouseInputService";
+import MouseInputService from "../src/lib/input/services/MouseInputService";
 import type { AppEvents, EventEmitter } from "../src/types.d";
 import mitt from "mitt";
 

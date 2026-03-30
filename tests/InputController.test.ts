@@ -1,11 +1,11 @@
 import "reflect-metadata";
-import InputController from "../src/lib/input/InputController";
+import InputController from "../src/lib/input/controllers/InputController";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import mitt from "mitt";
-import KeyboardInputService from "../src/lib/input/KeyboardInputService";
-import TouchInputService from "../src/lib/input/TouchInputService";
+import KeyboardInputService from "../src/lib/input/services/KeyboardInputService";
+import TouchInputService from "../src/lib/input/services/TouchInputService";
 import { AppEvents, EventEmitter } from "../src/types.d";
-import MouseInputService from "../src/lib/input/MouseInputService";
+import MouseInputService from "../src/lib/input/services/MouseInputService";
 
 vi.mock("mitt", () => {
   return {
@@ -79,25 +79,25 @@ describe("InputController", () => {
       expect(emitter.on).toHaveBeenNthCalledWith(
         1,
         "inputDisabled",
-        (inputController as any).disableInput
+        (inputController as any).disableInput,
       );
       expect(emitter.on).toHaveBeenNthCalledWith(
         2,
         "inputEnabled",
-        (inputController as any).enableInput
+        (inputController as any).enableInput,
       );
 
       expect(window.addEventListener).toHaveBeenNthCalledWith(
         1,
         "click",
-        mouse.handleClick
+        mouse.handleClick,
       );
 
       for (let i = 0; i < 4; i++) {
         expect(window.addEventListener).toHaveBeenNthCalledWith(
           i + 2,
           listeners[i].event,
-          listeners[i].callback
+          listeners[i].callback,
         );
       }
     });

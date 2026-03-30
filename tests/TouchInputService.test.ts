@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import TouchInputService from "../src/lib/input/TouchInputService";
+import TouchInputService from "../src/lib/input/services/TouchInputService";
 import { describe, it, beforeEach, vi, expect } from "vitest";
 import type { EventEmitter, AppEvents, Config } from "../src/types.d";
 import mitt from "mitt";
@@ -40,12 +40,12 @@ describe("TouchInputService", () => {
         touchInputService.handleTouchStart(event as unknown as TouchEvent);
 
         expect(
-          (touchInputService as any).startingTouchPosition.x
+          (touchInputService as any).startingTouchPosition.x,
         ).toStrictEqual(event.touches[0].clientX);
         expect(
-          (touchInputService as any).startingTouchPosition.y
+          (touchInputService as any).startingTouchPosition.y,
         ).toStrictEqual(event.touches[0].clientY);
-      }
+      },
     );
   });
 
@@ -56,12 +56,12 @@ describe("TouchInputService", () => {
         touchInputService.handleTouchMove(event as unknown as TouchEvent);
 
         expect((touchInputService as any).currentTouchPosition.x).toStrictEqual(
-          event.touches[0].clientX
+          event.touches[0].clientX,
         );
         expect((touchInputService as any).currentTouchPosition.y).toStrictEqual(
-          event.touches[0].clientY
+          event.touches[0].clientY,
         );
-      }
+      },
     );
   });
 
@@ -70,10 +70,12 @@ describe("TouchInputService", () => {
       "should emit UserInputRegistered for direction: $direction",
       ({ touchStartEvent, touchEvents, direction }) => {
         touchInputService.handleTouchStart(
-          touchStartEvent as unknown as TouchEvent
+          touchStartEvent as unknown as TouchEvent,
         );
         touchEvents.forEach((touchEvent) =>
-          touchInputService.handleTouchMove(touchEvent as unknown as TouchEvent)
+          touchInputService.handleTouchMove(
+            touchEvent as unknown as TouchEvent,
+          ),
         );
 
         touchInputService.handleTouchEnd();
@@ -87,7 +89,7 @@ describe("TouchInputService", () => {
           x: undefined,
           y: undefined,
         });
-      }
+      },
     );
 
     it.each(provideInputBelowThresholdTestCases())(
@@ -101,11 +103,11 @@ describe("TouchInputService", () => {
         touchInputService = new TouchInputService(emitter, config);
 
         touchInputService.handleTouchStart(
-          touchStartEvent as unknown as TouchEvent
+          touchStartEvent as unknown as TouchEvent,
         );
         touchEvents.forEach((touchEvent) => {
           touchInputService.handleTouchMove(
-            touchEvent as unknown as TouchEvent
+            touchEvent as unknown as TouchEvent,
           );
         });
 
@@ -120,7 +122,7 @@ describe("TouchInputService", () => {
           x: undefined,
           y: undefined,
         });
-      }
+      },
     );
   });
 });

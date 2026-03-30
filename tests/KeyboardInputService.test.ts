@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import KeyboardInputService from "../src/lib/input/KeyboardInputService";
+import KeyboardInputService from "../src/lib/input/services/KeyboardInputService";
 import { describe, it, vi, expect, beforeEach } from "vitest";
 import mitt from "mitt";
 import type { AppEvents, EventEmitter } from "../src/types.d";
@@ -33,7 +33,7 @@ describe("KeyboardInputService", () => {
         keyboardInputService.handle(event as KeyboardEvent);
 
         expect(emitter.emit).not.toHaveBeenCalled();
-      }
+      },
     );
 
     it.each(provideValidInputKeyTestCases())(
@@ -42,7 +42,7 @@ describe("KeyboardInputService", () => {
         keyboardInputService.handle(keyboardEvent as KeyboardEvent);
 
         expect(emitter.emit).toHaveBeenCalledWith("inputRegistered", direction);
-      }
+      },
     );
   });
 });
