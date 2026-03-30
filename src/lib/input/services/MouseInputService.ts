@@ -1,7 +1,7 @@
 import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
-import TYPES from "../../config/inversify/inversify.types";
-import type { EventEmitter } from "../../types";
+import TYPES from "../../../config/inversify/inversify.types";
+import type { EventEmitter } from "../../../types";
 
 @boundClass
 @injectable()
@@ -27,13 +27,13 @@ class MouseInputService {
   }
 
   private isRestartGameButton(
-    element: EventTarget | HTMLButtonElement
+    element: EventTarget | HTMLButtonElement,
   ): element is HTMLButtonElement {
     return (element as HTMLButtonElement).classList.contains("restart-game");
   }
 
   private isToggleThemeListButton(
-    element: EventTarget | HTMLButtonElement
+    element: EventTarget | HTMLButtonElement,
   ): element is HTMLButtonElement {
     return (
       (element as HTMLButtonElement).closest(".toggle-theme-list") !== null
@@ -41,7 +41,7 @@ class MouseInputService {
   }
 
   private isSelectThemeButton(
-    element: EventTarget | HTMLButtonElement
+    element: EventTarget | HTMLButtonElement,
   ): element is HTMLButtonElement {
     if (!(element instanceof Element)) {
       return false;

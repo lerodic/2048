@@ -1,12 +1,12 @@
 import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
-import TYPES from "../../config/inversify/inversify.types";
+import TYPES from "../../../config/inversify/inversify.types";
 import type {
   Config,
   Direction,
   EventEmitter,
   TouchPosition,
-} from "../../types";
+} from "../../../types";
 
 @boundClass
 @injectable()
@@ -23,7 +23,7 @@ class TouchInputService {
 
   constructor(
     @inject(TYPES.EventEmitter) private emitter: EventEmitter,
-    @inject(TYPES.Config) private config: Config
+    @inject(TYPES.Config) private config: Config,
   ) {}
 
   handleTouchStart(event: TouchEvent) {

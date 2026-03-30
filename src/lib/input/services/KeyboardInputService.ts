@@ -1,7 +1,7 @@
 import { boundClass } from "autobind-decorator";
 import { inject, injectable } from "inversify";
-import TYPES from "../../config/inversify/inversify.types";
-import type { Direction, EventEmitter, ValidInputKey } from "../../types";
+import TYPES from "../../../config/inversify/inversify.types";
+import type { Direction, EventEmitter, ValidInputKey } from "../../../types";
 
 @boundClass
 @injectable()
