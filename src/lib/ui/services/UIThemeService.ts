@@ -49,9 +49,16 @@ class UIThemeService implements UIService {
 
   toggleThemeList() {
     const themeListElement = this.locator.getThemeListElement();
+    if (this.isTransitioning()) return;
 
     this.toggleOverlay();
     themeListElement.classList.toggle("show");
+  }
+
+  private isTransitioning(): boolean {
+    const overlayElement = this.locator.getOverlayElement();
+
+    return overlayElement.classList.contains("animating");
   }
 
   private toggleOverlay() {
@@ -67,16 +74,19 @@ class UIThemeService implements UIService {
   }
 
   private hideOverlay(overlayElement: HTMLDivElement) {
-    overlayElement.classList.add("hide");
+    overlayElement.classList.add("hide", "animating");
 
     setTimeout(() => {
-      overlayElement.classList.remove("hide");
-      overlayElement.classList.remove("show");
+      overlayElement.classList.remove("hide", "show", "animating");
     }, 500);
   }
 
   private showOverlay(overlayElement: HTMLDivElement) {
-    overlayElement.classList.add("show");
+    overlayElement.classList.add("show", "animating");
+
+    setTimeout(() => {
+      overlayElement.classList.remove("animating");
+    }, 500);
   }
 
   selectTheme(themeName: string, onLoad: boolean = false) {
