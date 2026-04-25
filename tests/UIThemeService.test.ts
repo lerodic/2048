@@ -121,6 +121,27 @@ describe("UIThemeService", () => {
       expect(overlay?.classList.contains("show")).toBe(false);
       expect(themeListElement?.classList.contains("show")).toBe(false);
     });
+
+    it("should not perform any action if theme list is currently transitioning", () => {
+      setupDOM();
+      uiThemeService.toggleThemeList();
+      vi.advanceTimersByTime(250);
+
+      // should be ignored
+      uiThemeService.toggleThemeList();
+
+      const overlay = document.querySelector(".overlay");
+
+      expect(overlay?.classList.contains("animating")).toBe(true);
+      expect(overlay?.classList.contains("hide")).toBe(false);
+
+      vi.advanceTimersByTime(250);
+
+      // .animating removed; should be executed
+      uiThemeService.toggleThemeList();
+
+      expect(overlay?.classList.contains("hide")).toBe(true);
+    });
   });
 
   describe("selectTheme", () => {
@@ -134,7 +155,7 @@ describe("UIThemeService", () => {
         const themeListElement = document.querySelector(".theme-list");
 
         expect(themeListElement?.classList.contains("show")).toBe(false);
-      }
+      },
     );
 
     it.each(provideSelectThemeTestCases())(
@@ -149,7 +170,7 @@ describe("UIThemeService", () => {
         uiThemeService.selectTheme(theme, true);
 
         const themeButtonElement = document.querySelector(
-          `.select-theme[data-theme="${theme}"]`
+          `.select-theme[data-theme="${theme}"]`,
         );
 
         const themeListVisibleFinal = document
@@ -159,7 +180,7 @@ describe("UIThemeService", () => {
         expect(themeButtonElement?.classList.contains("active")).toBe(true);
         expect(themeListVisibleInitial).toBe(false);
         expect(themeListVisibleFinal).toBe(false);
-      }
+      },
     );
 
     it.each(provideSelectThemeTestCases())(
@@ -174,7 +195,7 @@ describe("UIThemeService", () => {
         uiThemeService.selectTheme(theme);
 
         const themeButtonElement = document.querySelector(
-          `.select-theme[data-theme="${theme}"]`
+          `.select-theme[data-theme="${theme}"]`,
         );
 
         const themeListVisibleFinal = document
@@ -184,7 +205,7 @@ describe("UIThemeService", () => {
         expect(themeButtonElement?.classList.contains("active")).toBe(true);
         expect(themeListVisibleInitial).toBe(false);
         expect(themeListVisibleFinal).toBe(true);
-      }
+      },
     );
   });
 });
