@@ -20,7 +20,7 @@ class UIGameService implements UIService {
   constructor(
     @inject(TYPES.HTMLElementLocator) private locator: HTMLElementLocator,
     @inject(TYPES.Config) private config: Config,
-    @inject(TYPES.EventEmitter) private emitter: EventEmitter
+    @inject(TYPES.EventEmitter) private emitter: EventEmitter,
   ) {}
 
   init() {
@@ -52,14 +52,28 @@ class UIGameService implements UIService {
 
   spawnTile(tile: Tile) {
     const container = this.locator.getTileElementContainer(
-      tile.positionalIndex
+      tile.positionalIndex,
     );
 
-    container.insertAdjacentHTML("beforeend", tile.asHtml);
+    container.insertAdjacentHTML("beforeend", this.getTileHtml(tile));
 
     setTimeout(() => {
       this.cleanUpTileSpawn(tile);
     }, this.config.ANIMATION_DURATION);
+  }
+
+  private getTileHtml(tile: Tile): string {
+    const clampedValue = tile.value > 2048 ? 2048 : tile.value;
+
+    const classList = `tile value-${clampedValue}${
+      tile.isSpawning ? " spawning" : ""
+    }`;
+
+    return `
+    <div class="${classList}" data-tile-id="${tile.id}">
+      <p class="tile-value">${tile.value}</p>
+    </div>
+    `;
   }
 
   private cleanUpTileSpawn(tile: Tile) {
@@ -77,33 +91,33 @@ class UIGameService implements UIService {
     }, this.config.ANIMATION_DURATION);
   }
 
-  private getMovementClassName(
-    direction: Direction,
-    distance: TileTravelDistance
-  ): string {
-    return `move-tile-${direction.toLowerCase()}-${distance}`;
-  }
-
   private animateTileMove(event: TileMovedEvent) {
     const tileElement = this.locator.getTileElement(event.tile.id);
     const tileClass = this.getMovementClassName(
       event.direction,
-      event.distance
+      event.distance,
     );
 
     tileElement.classList.add(tileClass);
   }
 
+  private getMovementClassName(
+    direction: Direction,
+    distance: TileTravelDistance,
+  ): string {
+    return `move-tile-${direction.toLowerCase()}-${distance}`;
+  }
+
   private respawnTile(tile: Tile) {
     const previousTileContainer = this.locator.getTileContainerElement(
-      tile.previousPositionalIndex
+      tile.previousPositionalIndex,
     );
     const newTileContainer = this.locator.getTileContainerElement(
-      tile.positionalIndex
+      tile.positionalIndex,
     );
 
     previousTileContainer.innerHTML = "";
-    newTileContainer.insertAdjacentHTML("beforeend", tile.asHtml);
+    newTileContainer.insertAdjacentHTML("beforeend", this.getTileHtml(tile));
   }
 
   updateZIndex(event: ZIndexUpdatedEvent) {

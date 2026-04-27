@@ -1,7 +1,7 @@
 import type CONFIG from "./config/app.config";
 import type emitter from "./config/events/emitter";
 import type Tile from "./lib/game/entities/Tile";
-import type KeyboardInputService from "./lib/input/KeyboardInputService";
+import type KeyboardInputService from "./lib/input/services/KeyboardInputService";
 
 export interface Controller {
   init(): void;

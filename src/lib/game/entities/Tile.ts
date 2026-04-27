@@ -10,7 +10,7 @@ class Tile {
     private _position: Position,
     private _value: number,
     private _id: string,
-    private _isSpawning: boolean = true
+    private _isSpawning: boolean = true,
   ) {
     this._previousPosition = { ...this.position };
   }
@@ -45,20 +45,6 @@ class Tile {
 
   get isSpawning(): boolean {
     return this._isSpawning;
-  }
-
-  get asHtml(): string {
-    const clampedValue = this.value > 2048 ? 2048 : this.value;
-
-    const classList = `tile value-${clampedValue}${
-      this._isSpawning ? " spawning" : ""
-    }`;
-
-    return `
-    <div class="${classList}" data-tile-id="${this.id}">
-      <p class="tile-value">${this.value}</p>
-    </div>
-    `;
   }
 
   markAsSpawned() {

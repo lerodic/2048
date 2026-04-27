@@ -29,7 +29,7 @@ class TileService {
     return (
       this.tiles.find(
         (tile) =>
-          tile.position.x === position.x && tile.position.y === position.y
+          tile.position.x === position.x && tile.position.y === position.y,
       ) !== undefined
     );
   }
@@ -46,13 +46,13 @@ class TileService {
     const directions: Direction[] = ["Up", "Down", "Left", "Right"];
 
     return directions.some((direction) =>
-      this.isAnyActionPossibleForDirection(direction)
+      this.isAnyActionPossibleForDirection(direction),
     );
   }
 
   isAnyActionPossibleForDirection(direction: Direction): boolean {
     return this.tiles.some((tile) =>
-      this.canTileBeMovedOrMerged(tile, direction)
+      this.canTileBeMovedOrMerged(tile, direction),
     );
   }
 
@@ -89,19 +89,19 @@ class TileService {
 
   private getImmediateNeighbour(
     tile: Tile,
-    direction: Direction
+    direction: Direction,
   ): Tile | undefined {
     const x = this.getNeighbourCoordinateX(tile, direction);
     const y = this.getNeighbourCoordinateY(tile, direction);
 
     return this.tiles.find(
-      (tile) => tile.position.x === x && tile.position.y === y
+      (tile) => tile.position.x === x && tile.position.y === y,
     );
   }
 
   private getNeighbourCoordinateX(
     tile: Tile,
-    direction: Direction
+    direction: Direction,
   ): ValidCoordinate {
     if (!["Left", "Right"].includes(direction)) {
       return tile.position.x;
@@ -114,7 +114,7 @@ class TileService {
 
   private getNeighbourCoordinateY(
     tile: Tile,
-    direction: Direction
+    direction: Direction,
   ): ValidCoordinate {
     if (!["Up", "Down"].includes(direction)) {
       return tile.position.y;
@@ -151,19 +151,19 @@ class TileService {
   }
 
   private sortTilesForDirectionUp(): Tile[] {
-    return this.tiles.sort((a, b) => a.position.y - b.position.y);
+    return this.tiles.toSorted((a, b) => a.position.y - b.position.y);
   }
 
   private sortTilesForDirectionDown(): Tile[] {
-    return this.tiles.sort((a, b) => b.position.y - a.position.y);
+    return this.tiles.toSorted((a, b) => b.position.y - a.position.y);
   }
 
   private sortTilesForDirectionLeft(): Tile[] {
-    return this.tiles.sort((a, b) => a.position.x - b.position.x);
+    return this.tiles.toSorted((a, b) => a.position.x - b.position.x);
   }
 
   private sortTilesForDirectionRight(): Tile[] {
-    return this.tiles.sort((a, b) => b.position.x - a.position.x);
+    return this.tiles.toSorted((a, b) => b.position.x - a.position.x);
   }
 
   merge(tile: Tile, direction: Direction): Tile | undefined {

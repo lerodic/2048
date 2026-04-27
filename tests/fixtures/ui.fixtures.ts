@@ -1,4 +1,5 @@
 import Tile from "../../src/lib/game/entities/Tile";
+import { asHtml } from "../utils/asHtml";
 
 export function setupDOM() {
   const html = `
@@ -66,10 +67,10 @@ export function setupDOMWithPreExistingTiles(tiles: Tile[]) {
 
   tiles.forEach((tile) => {
     const tileContainer = document.querySelector(
-      `.tile-container[data-container-id="${tile.positionalIndex}"]`
+      `.tile-container[data-container-id="${tile.positionalIndex}"]`,
     );
 
-    tileContainer?.insertAdjacentHTML("beforeend", tile.asHtml);
+    tileContainer?.insertAdjacentHTML("beforeend", asHtml(tile));
   });
 }
 
@@ -86,7 +87,7 @@ export function setupDOMWithVisibleBanner() {
   const toggleThemeList = document.querySelector(".toggle-theme-list");
 
   [gameContainerElement, scoreContainerElement, toggleThemeList].forEach((el) =>
-    el?.classList.toggle("translucent")
+    el?.classList.toggle("translucent"),
   );
 }
 
