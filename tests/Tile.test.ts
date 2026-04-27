@@ -8,12 +8,13 @@ import {
   provideMoveRightTestCases,
   provideMoveUpTestCases,
 } from "./fixtures/Tile.fixtures";
+import { asHtml } from "./utils/asHtml";
 
 describe("Tile", () => {
   describe("markAsSpawned", () => {
     it("should mark tile as spawned", () => {
       const tile = new Tile({ x: 0, y: 0 }, 2, "1");
-      const initialHtml = tile.asHtml;
+      const initialHtml = asHtml(tile);
 
       tile.markAsSpawned();
 
@@ -22,12 +23,12 @@ describe("Tile", () => {
       <p class="tile-value">2</p>
     </div>
     `);
-      expect(tile.asHtml).toStrictEqual(
+      expect(asHtml(tile)).toStrictEqual(
         `
     <div class="tile value-2" data-tile-id="1">
       <p class="tile-value">2</p>
     </div>
-    `
+    `,
       );
     });
   });
@@ -41,7 +42,7 @@ describe("Tile", () => {
         tile.moveUp();
 
         expect(tile.position).toStrictEqual(expected);
-      }
+      },
     );
   });
 
@@ -54,7 +55,7 @@ describe("Tile", () => {
         tile.moveDown();
 
         expect(tile.position).toStrictEqual(expected);
-      }
+      },
     );
   });
 
@@ -67,7 +68,7 @@ describe("Tile", () => {
         tile.moveLeft();
 
         expect(tile.position).toStrictEqual(expected);
-      }
+      },
     );
   });
 
@@ -80,7 +81,7 @@ describe("Tile", () => {
         tile.moveRight();
 
         expect(tile.position).toStrictEqual(expected);
-      }
+      },
     );
   });
 
@@ -92,7 +93,7 @@ describe("Tile", () => {
           y: 0,
         },
         2,
-        "1"
+        "1",
       );
 
       tile.setMerged();
@@ -109,7 +110,7 @@ describe("Tile", () => {
           y: 0,
         },
         2,
-        "1"
+        "1",
       );
       tile.setMerged();
 
@@ -129,13 +130,13 @@ describe("Tile", () => {
             y: 0,
           },
           initial,
-          "1"
+          "1",
         );
 
         tile.increaseTwofold();
 
         expect(tile.value).toStrictEqual(expected);
-      }
+      },
     );
   });
 });

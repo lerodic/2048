@@ -12,6 +12,7 @@ import {
   tiles,
 } from "./fixtures/UIGameService.fixtures";
 import { setupDOM, setupDOMWithPreExistingTiles } from "./fixtures/ui.fixtures";
+import { asHtml } from "./utils/asHtml";
 
 vi.mock("mitt", () => {
   return {
@@ -87,15 +88,15 @@ describe("UIGameService", () => {
         vi.advanceTimersByTime(config.ANIMATION_DURATION);
 
         const tileContainerElement = document.querySelector(
-          `.tile-container[data-container-id="${tile.positionalIndex}"]`
+          `.tile-container[data-container-id="${tile.positionalIndex}"]`,
         );
         const tileElement = document.querySelector(
-          `.tile[data-tile-id="${tile.id}"]`
+          `.tile[data-tile-id="${tile.id}"]`,
         );
 
-        expect(tileContainerElement?.innerHTML).toStrictEqual(tile.asHtml);
+        expect(tileContainerElement?.innerHTML).toStrictEqual(asHtml(tile));
         expect(tileElement?.classList.contains("spawning")).toBe(false);
-      }
+      },
     );
   });
 
@@ -108,14 +109,14 @@ describe("UIGameService", () => {
         uiGameService.moveTile(event);
 
         const tileElement = document.querySelector(
-          `.tile[data-tile-id="${event.tile.id}"]`
+          `.tile[data-tile-id="${event.tile.id}"]`,
         );
         const movementClass = `move-tile-${event.direction.toLowerCase()}-${
           event.distance
         }`;
 
         expect(tileElement?.classList.contains(movementClass)).toBe(true);
-      }
+      },
     );
   });
 
@@ -129,11 +130,11 @@ describe("UIGameService", () => {
         uiGameService.updateZIndex({ tile: tiles[0], zIndex });
 
         const tileElement = document.querySelector(
-          `.tile[data-tile-id="${tiles[0].id}"]`
+          `.tile[data-tile-id="${tiles[0].id}"]`,
         ) as HTMLDivElement;
 
         expect(tileElement.style.zIndex).toStrictEqual(zIndex.toString());
-      }
+      },
     );
   });
 
@@ -157,33 +158,35 @@ describe("UIGameService", () => {
         vi.advanceTimersByTime(config.ANIMATION_DURATION);
 
         const tileElement = document.querySelector(
-          `.tile[data-tile-id="${event.tile.id}"]`
+          `.tile[data-tile-id="${event.tile.id}"]`,
         );
 
         expect(tileElement).toBeNull();
 
         const mergedIntoTileElement = document.querySelector(
-          `.tile[data-tile-id="${event.mergedInto.id}"]`
+          `.tile[data-tile-id="${event.mergedInto.id}"]`,
         );
         const mergedIntoTileValueElement =
           mergedIntoTileElement?.querySelector(".tile-value");
 
         expect(mergedIntoTileValueElement?.innerHTML).toStrictEqual(
-          event.tile.value.toString()
+          event.tile.value.toString(),
         );
         expect(
-          mergedIntoTileElement?.classList.contains(`value-${event.tile.value}`)
+          mergedIntoTileElement?.classList.contains(
+            `value-${event.tile.value}`,
+          ),
         ).toBe(true);
         expect(mergedIntoTileValueElement?.classList.contains("merged")).toBe(
-          true
+          true,
         );
 
         vi.advanceTimersByTime(config.ANIMATION_DURATION);
 
         expect(mergedIntoTileValueElement?.classList.contains("merged")).toBe(
-          false
+          false,
         );
-      }
+      },
     );
   });
 });
